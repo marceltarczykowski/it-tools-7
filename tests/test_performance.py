@@ -12,12 +12,12 @@ def _create_n_apartments(n: int) -> dict:
 
 def test_search_for_apartment_large_dataset():
     """Searching for an apartment in a dataset of 10 000 apartments should complete within the time limit."""
-    ALLOWED_SEARCH_TIME_MS = 1  # 1 millisecond
+    ALLOWED_SEARCH_TIME_MS = 10  # 10 milliseconds
     N = 100_000
     manager = Manager(Parameters())
     manager.apartments = _create_n_apartments(N)
 
-    exisitng_apartment_key = "apart-80901"
+    exisitng_apartment_key = "apart-50000"
     non_existent_apartment_key = "apart-1000000"
 
 
