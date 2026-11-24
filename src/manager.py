@@ -127,7 +127,7 @@ class Manager:
         result = {}
         for i in range(len(self.transfers)):
             errors = self.validate_transfer(self.transfers[i])
-            if len(errors) < 0:
+            if len(errors) > 0:
                 result[i] = errors
         return result
 
