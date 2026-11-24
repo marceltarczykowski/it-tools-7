@@ -112,3 +112,29 @@ class Manager:
         if apartment_key not in self.apartments:
             raise ValueError("Apartment key does not exist")
         return any([bill for bill in self.bills if bill.apartment == apartment_key and bill.settlement_year == year and bill.settlement_month == month])
+
+    def validate_transfer(self, transfer: Transfer) -> List[str]:
+        errors = []
+        if transfer.tenant not in self.tenants:
+            errors.append("Najemca nie istnieje")
+            return errors
+        tenant = self.tenants[transfer.tenant]
+        if transfer.date < tenant.date_agreement_from or transfer.date > tenant.date_agreement_to:
+            errors.append("Przelew poza okresem umowy")
+        return errors
+
+    def validate_all_transfers(self) -> dict:
+        result = {}
+        for i in range(len(self.transfers)):
+            errors = self.validate_transfer(self.transfers[i])
+            if len(errors) > 0:
+                result[i] = errors
+        return result
+
+    def get_invalid_transfers(self) -> list:
+        result = []
+        for i in range(len(self.transfers)):
+            errors = self.validate_transfer(self.transfers[i])
+            if len(errors) > 0:
+                result.append((i, self.transfers[i], errors))
+        return result
